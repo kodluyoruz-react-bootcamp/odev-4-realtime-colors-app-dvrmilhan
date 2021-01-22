@@ -7,7 +7,9 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+
+    socket.on("new-user", ({ color }) => console.log(color));
+
 });
 
 http.listen(3000, () => {
