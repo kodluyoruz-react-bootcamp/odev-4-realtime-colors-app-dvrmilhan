@@ -1,34 +1,50 @@
 
-import { io } from 'socket.io-client';
+
 import { useEffect, useState } from 'react';
 import { SketchPicker } from 'react-color';
+import { initSocket, disconnectSocket, sendColor, subscribeToColor, subscribeInitialColor } from './socketService'
 
 
 function App() {
   const [color, setColor] = useState("#FFC0CB");
 
+
   useEffect(() => {
-    const socket = io('http://localhost:3000', {
-      transports: ["websocket"]
-    })
+    initSocket();
 
-    socket.emit("new-user", { color })
+    subscribeInitialColor((data) => {
+      console.log("color from backend", data);
+      setColor(data);
+    });
 
-  }, [color]);
+    subscribeToColor((color) => {
+      setColor(color);
+    });
 
+    return () => disconnectSocket();
+  }, []);
+
+  const onClickHandler = (e) => {
+    e.preventDefault();
+    sendColor(color);
+  };
 
 
   return (
-    <div className="App" style={{
+    <div style={{
       background: `${color}`,
       height: '757px'
 
     }}>
-      <SketchPicker
-
-        color={color}
-        onChangeComplete={(color) => setColor(color.hex)}
-      />
+      <div className="App" >
+        <SketchPicker
+          className="Color"
+          color={color}
+          onChangeComplete={(color) => setColor(color.hex)}
+        />
+      </div>
+      <button onClick={onClickHandler}> Change Color</button>
+      <p>Your color is : {color}</p>
     </div>
   );
 }
