@@ -7,8 +7,11 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-
-    socket.on("new-user", ({ color }) => console.log(color));
+    console.log("connected")
+    socket.on("new-color", (color) => {
+        console.log(color);
+        socket.broadcast.emit('subscribe-to-color', color);
+    });
 
 });
 
