@@ -3,7 +3,7 @@ import io from "socket.io-client";
 let socket;
 
 export const initSocket = () => {
-    socket = io("http://localhost:3000", {
+    socket = io("https://real-time-color-devrim.herokuapp.com", {
         transports: ["websocket"],
     });
 
@@ -27,7 +27,7 @@ export const sendColor = (color) => {
 export const subscribeToColor = (cb) => {
     if (socket) {
 
-        socket.on("subscribe-to-color", (color) => {   //Çalışmıyor?!?!
+        socket.on("subscribe-to-color", (color) => {
             console.log("color received: ", color);
             cb(color);
         });

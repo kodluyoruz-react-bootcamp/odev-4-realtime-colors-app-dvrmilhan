@@ -30,7 +30,7 @@ function App() {
     }
   };
 
-  const onSubmitHandler = (e) => {
+  const onClickHandler = (e) => {
     e.preventDefault();
     sendColor(color);
     saveLocalColor(color);
@@ -50,7 +50,7 @@ function App() {
           className="Color"
           color={color}
           onChangeComplete={(color) => setColor(color.hex)} />
-        <button onClick={onSubmitHandler}> Change Color</button>
+        <button onClick={onClickHandler}> Change Color</button>
         <p>Your color is : {color}</p>
       </div>
     </div>
